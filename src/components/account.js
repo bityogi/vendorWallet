@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import ProgressIndicator from 'react-native-progress-indicator';
 
 import RecentActivityList from './activity/activityList';
 import { getBalanceSnapshot } from '../actions';
@@ -24,53 +24,28 @@ class Account extends Component {
       headerStyles,
       balanceBarStyles,
       snapshotStyles,
+      snapshotLabelStyles,
       subMenuStyles,
       transactionStyles,
       balanceStyle,
       transactionList,
-      subText
+      subText,
+      labelLeft,
+      labelRight,
+      smallFont
     } = styles;
 
-    const snapshotData = [
-      {
-        'name' : 'For Sale',
-        'amount' : this.props.vendorSnapshot.forSale
-      },
-      {
-        'name' : 'In Circulation',
-        'amount' : this.props.vendorSnapshot.inCirculation
-      },
-      {
-        'name' : 'Redeemed',
-        'amount' : this.props.vendorSnapshot.redeemed
-      }];
+    const {
+      issued,
+      forSale,
+      inCirculation,
+      redeemed
 
+    } = this.props.vendorSnapshot;
 
-    const pieChartOptions = {
-      margin: {
-        top: 20,
-        left: 20,
-        right: 20,
-        bottom: 20
-      },
-      width: 350,
-      height: 350,
-      color: '#2980B9',
-      r: 50,
-      R: 150,
-      legendPosition: 'topLeft',
-      animate: {
-        type: 'oneByOne',
-        duration: 200,
-        fillTransition: 3
-      },
-      label: {
-        fontFamily: 'Arial',
-        fontSize: 8,
-        fontWeight: true,
-        color: '#ECF0F1'
-      }
-    };
+    const forSalePercent = (forSale / issued );
+    const inCirculationPercent = (inCirculation / issued);
+    const redeemedPercent = ((issued - forSale) / redeemed);
 
     return (
       <View style={container}>
@@ -96,7 +71,40 @@ class Account extends Component {
           </View>
 
           <View style={snapshotStyles}>
-            
+            <View>
+              <View style={snapshotLabelStyles}>
+                <Text style={[labelLeft, smallFont]}>For Sale ({forSale})</Text>
+                <Text style={[labelRight, smallFont]}>{issued}</Text>
+              </View>
+              <ProgressIndicator
+                progress={forSalePercent}
+                progressTintColor= '#21464A'
+              />
+            </View>
+
+            <View>
+              <View style={snapshotLabelStyles}>
+                <Text style={[labelLeft, smallFont]}>In Circulation ({inCirculation})</Text>
+                <Text style={[labelRight, smallFont]}>{issued}</Text>
+              </View>
+              <ProgressIndicator
+                progress={inCirculationPercent}
+                progressTintColor= '#21464A'
+              />
+            </View>
+            <View>
+              <View style={snapshotLabelStyles}>
+                <Text style={[labelLeft, smallFont]}>Redeemed ({ redeemed})</Text>
+                <Text style={[labelRight, smallFont]}>{issued - forSale}</Text>
+              </View>
+              <ProgressIndicator
+                progress={redeemedPercent}
+                progressTintColor= '#21464A'
+              />
+            </View>
+
+
+
           </View>
 
           <View style={subMenuStyles}>
@@ -142,7 +150,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#2D676D',
     borderRadius: 2,
-    padding: 5
+    padding: 2
   },
   balanceStyle : {
     fontSize: 40
@@ -158,10 +166,24 @@ const styles = StyleSheet.create({
     marginRight: 1
   },
   snapshotStyles: {
-    flex: 6
+    flex: 6,
+    justifyContent: 'space-around',
+  },
+  labelLeft: {
+    flex: 1,
+  },
+  labelRight: {
+    flex: 1,
+    alignItems: 'flex-end'
+  },
+  smallFont: {
+    fontSize: 10
+  },
+  snapshotLabelStyles: {
+    flexDirection: 'row'
   },
   subMenuStyles: {
-    flex: 1,
+    flex: 2,
     alignItems: 'stretch',
     flexDirection: 'row',
     justifyContent: 'center'
