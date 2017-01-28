@@ -4,10 +4,13 @@ import { Scene, Router, Actions } from 'react-native-router-flux';
 import Account from './components/account';
 import SendAmount from './components/send/send';
 import RequestAmount from './components/request/request';
-import Publish from './components/publish/publish';
+
 import Connections from './components/connections/connections';
 import Activity from './components/activity/activityList';
 import Settings from './components/settings/settings';
+
+import PublishVendorInfo from './components/publish/vendorInfo';
+
 
 const RouterComponent = () => {
 
@@ -25,7 +28,7 @@ const RouterComponent = () => {
         </Scene>
 
         <Scene key="issue">
-          <Scene key="publishInfo" component={Publish} initial={true} title='Publish' />
+          <Scene key="publishInfo" component={PublishVendorInfo} initial={true} title='Issue' />
         </Scene>
 
         <Scene key="connections">

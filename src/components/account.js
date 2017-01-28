@@ -108,10 +108,26 @@ class Account extends Component {
           </View>
 
           <View style={subMenuStyles}>
-            <Icon style={subMenuButtons} name='send' size={30} color='#21464A' onPress={() => Actions.issue()} />
-            <Icon style={subMenuButtons} name='link' size={30} color='#21464A' onPress={() => Actions.connections()} />
-            <Icon style={subMenuButtons} name='list' size={30} color='#21464A' onPress={() => Actions.history()} />
-            <Icon style={subMenuButtons} name='cog' size={30} color='#21464A' onPress={() => Actions.settings()} />
+            <View style={subMenuButtons}>
+              <Icon name='send' size={25} color='#21464A' onPress={() => Actions.issue()} />
+              <Text style={smallFont}>Publish</Text>
+            </View>
+            <View style={subMenuButtons}>
+              <Icon name='link' size={25} color='#21464A' onPress={() => Actions.connections()} />
+              <Text style={smallFont}>Connections</Text>
+            </View>
+            <View style={subMenuButtons}>
+              <Icon name='list' size={25} color='#21464A' onPress={() => Actions.history()} />
+              <Text style={smallFont}>History</Text>
+            </View>
+            <View style={subMenuButtons}>
+              <Icon name='cog' size={25} color='#21464A' onPress={() => Actions.settings()} />
+              <Text style={smallFont}>Settings</Text>
+            </View>
+
+
+
+
           </View>
 
           <View style={transactionStyles}>
@@ -191,7 +207,7 @@ const styles = StyleSheet.create({
   subMenuButtons: {
     flex: 1,
     justifyContent: 'center',
-    textAlign: 'center',
+    alignItems: 'center',
     borderWidth: 1,
     padding: 10,
     borderColor: '#2D676D',
